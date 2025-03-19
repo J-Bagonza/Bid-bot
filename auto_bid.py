@@ -34,7 +34,7 @@ def place_bid(page, question_url):
     page.goto(question_url, timeout=60000)
 
     # ✅ Wait for bid elements to load
-    page.wait_for_timeout(3000)  # Allow time for dynamic elements to load
+    page.wait_for_timeout(3000)  
 
     # ✅ Generate random bid price and delivery time
     bid_price = random.randint(*BID_PRICE_RANGE)
@@ -42,16 +42,17 @@ def place_bid(page, question_url):
 
     print(f"💰 Bidding ${bid_price} | ⏳ Delivery in {delivery_time} hours")
 
-    # ✅ Click the outer dropdown container to activate the price selection
-    price_dropdown_container = page.query_selector("#s2id_priceDropDown")
-    if price_dropdown_container:
-        price_dropdown_container.click()
-        page.wait_for_timeout(1000)  # Wait for dropdown to open
-
-    # ✅ Select the bid price in the actual dropdown
-    price_dropdown = page.query_selector("#priceDropDown")
+    # ✅ Select bid price
+    price_dropdown = page.query_selector("#s2id_priceDropDown")
     if price_dropdown:
-        price_dropdown.select_option(str(bid_price))
+        price_dropdown.click()
+        page.wait_for_timeout(1000)  
+        dropdown_option = page.query_selector(f"option[value='{bid_price}']")
+        if dropdown_option:
+            dropdown_option.click()
+        else:
+            print(f"⚠ Bid amount ${bid_price} not available.")
+            return False
     else:
         print("⚠ Could not find price dropdown.")
         return False  
@@ -64,7 +65,7 @@ def place_bid(page, question_url):
         print("⚠ Could not find delivery time input.")
         return False
 
-    # ✅ Click the finalize bid checkbox
+    # ✅ Click finalize bid checkbox
     finalize_checkbox = page.query_selector(".finalize-bid-description")
     if finalize_checkbox:
         finalize_checkbox.click()
@@ -90,17 +91,8 @@ def auto_bid():
 
         login_with_cookie(page)
 
-        # ✅ Read filtered questions
-        if not os.path.exists("filtered_questions.json"):
-            print("⚠ No filtered questions found!")
-            return
-
         with open("filtered_questions.json", "r", encoding="utf-8") as file:
             questions = json.load(file)
-
-        if not questions:
-            print("⚠ No questions available to bid on.")
-            return
 
         bids_placed = 0
         for question in questions:
@@ -108,12 +100,7 @@ def auto_bid():
                 print("✅ Reached max bid limit.")
                 break  
 
-            question_url = question.get("url")
-            if not question_url:
-                print(f"⚠ Skipping {question['title']} (No URL found)")
-                continue  
-
-            success = place_bid(page, question_url)
+            success = place_bid(page, question["url"])
             if success:
                 bids_placed += 1
 

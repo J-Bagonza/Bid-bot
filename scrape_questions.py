@@ -9,13 +9,13 @@ load_dotenv()
 STUDYPOOL_SESSION = os.getenv("STUDYPOOL_SESSION")
 
 # ✅ Filtering Criteria
-MINIMUM_PRICE = 3.0  # ✅ Minimum price ($3)
-MIN_HOURS = 3  # ✅ Minimum 3 hours
-MIN_DAYS = 1  # ✅ Minimum 1 day (24 hours)
-MAX_DEADLINE_HOURS = 30 * 24  # ✅ Maximum 30 days (720 hours)
-RETRY_DELAY = 60  # ✅ Wait 60 seconds before retrying if no questions are found
+MINIMUM_PRICE = 3.0  #  Minimum price ($3)
+MIN_HOURS = 3  #  Minimum 3 hours
+MIN_DAYS = 1  #  Minimum 1 day (24 hours)
+MAX_DEADLINE_HOURS = 30 * 24  # Maximum 30 days (720 hours)
+RETRY_DELAY = 60  #  Wait 60 seconds before retrying if no questions are found
 
-# ✅ Preferred Categories (Not overly strict)
+#  Preferred Categories
 PREFERRED_CATEGORIES = {"Business", "Writing", "Science", "Programming", "Mathematics", "Humanities"}
 
 def login_with_cookie(page):
@@ -34,7 +34,7 @@ def login_with_cookie(page):
     page.reload()
 
 def parse_price(price_text):
-    """Convert price string (e.g., '$65.00') to float (65.00)."""
+    """Convert price string (e.g., '$65.00') to float."""
     return float(price_text.replace("$", "").strip())
 
 def parse_deadline(deadline_text):
@@ -61,7 +61,7 @@ def scrape_questions():
             page.goto("https://www.studypool.com/questions/newest", timeout=60000)
 
             # Ensure page loads properly
-            page.wait_for_selector("#questions-list", timeout=30000)
+            page.wait_for_selector("#questions-list", timeout=60000)
             page.wait_for_timeout(5000)
 
             questions_container = page.query_selector("#questions-list")
@@ -75,7 +75,7 @@ def scrape_questions():
                     subject_element = question.query_selector(".upper-line.category-name")
                     deadline_element = question.query_selector(".timeVal.upper-line")
                     price_element = question.query_selector(".upper-line")
-                    link_element = question.query_selector("a")
+                    link_element = question.query_selector("a[href*='/questions/']")
 
                     if not (title_element and subject_element and deadline_element and price_element and link_element):
                         continue  
@@ -89,7 +89,7 @@ def scrape_questions():
                     price = parse_price(price_text)
                     deadline_hours = parse_deadline(deadline_text)
 
-                    # ✅ Correct deadline filtering:
+                    # Correct deadline filtering:
                     # Accepts at least 3 hours OR at least 1 full day (24 hours)
                     if matches_preferred_category(subject) and (MINIMUM_PRICE <= price) and (
                         deadline_hours >= MIN_HOURS or deadline_hours >= MIN_DAYS * 24
@@ -111,7 +111,7 @@ def scrape_questions():
             if filtered_questions:
                 with open("filtered_questions.json", "w", encoding="utf-8") as file:
                     json.dump(filtered_questions, file, indent=4, ensure_ascii=False)
-                print("\n✅ Filtered questions saved to 'filtered_questions.json'!")
+                print("\n Filtered questions saved to 'filtered_questions.json'!")
                 break  
 
             print(f"⚠ No matching questions found. Retrying in {RETRY_DELAY} seconds...")
