@@ -8,10 +8,10 @@ from dotenv import load_dotenv
 load_dotenv()
 STUDYPOOL_SESSION = os.getenv("STUDYPOOL_SESSION")
 
-# ✅ Define bidding ranges
-BID_PRICE_RANGE = (5, 1000)  # ✅ Min and max bid price
-DELIVERY_TIME_RANGE = (5, 360)  # ✅ Min and max delivery time
-MAX_BIDS = 5  # ✅ Set how many bids the bot should place per run
+#  Define bidding ranges
+BID_PRICE_RANGE = (5, 1000)  
+DELIVERY_TIME_RANGE = (5, 360)  
+MAX_BIDS = 5  
 
 def login_with_cookie(page):
     """Load StudyPool session using stored cookie."""
@@ -33,16 +33,16 @@ def place_bid(page, question_url):
     print(f"🚀 Opening question: {question_url}")
     page.goto(question_url, timeout=60000)
 
-    # ✅ Wait for bid elements to load
+    #  Wait for bid elements to load
     page.wait_for_timeout(3000)  
 
-    # ✅ Generate random bid price and delivery time
+    #  Generate random bid price and delivery time
     bid_price = random.randint(*BID_PRICE_RANGE)
     delivery_time = random.randint(*DELIVERY_TIME_RANGE)
 
     print(f"💰 Bidding ${bid_price} | ⏳ Delivery in {delivery_time} hours")
 
-    # ✅ Select bid price
+    #  Select bid price
     price_dropdown = page.query_selector("#s2id_priceDropDown")
     if price_dropdown:
         price_dropdown.click()
@@ -57,7 +57,7 @@ def place_bid(page, question_url):
         print("⚠ Could not find price dropdown.")
         return False  
 
-    # ✅ Enter delivery time
+    #  Enter delivery time
     delivery_input = page.query_selector("#deliver_in")
     if delivery_input:
         delivery_input.fill(str(delivery_time))  
@@ -65,7 +65,7 @@ def place_bid(page, question_url):
         print("⚠ Could not find delivery time input.")
         return False
 
-    # ✅ Click finalize bid checkbox
+    #  Click finalize bid checkbox
     finalize_checkbox = page.query_selector(".finalize-bid-description")
     if finalize_checkbox:
         finalize_checkbox.click()
@@ -73,14 +73,14 @@ def place_bid(page, question_url):
         print("⚠ Could not find finalize checkbox.")
         return False
 
-    # ✅ Click "Place Bid" button
+    #  Click "Place Bid" button
     place_bid_button = page.query_selector("#placeABidButton")
     if place_bid_button:
         place_bid_button.click()
-        print("✅ Bid placed successfully!")
+        print(" Bid placed successfully!")
         return True
     else:
-        print("⚠ Could not find 'Place Bid' button.")
+        print(" Could not find 'Place Bid' button.")
         return False
 
 def auto_bid():
@@ -97,7 +97,7 @@ def auto_bid():
         bids_placed = 0
         for question in questions:
             if bids_placed >= MAX_BIDS:
-                print("✅ Reached max bid limit.")
+                print(" Reached max bid limit.")
                 break  
 
             success = place_bid(page, question["url"])
@@ -105,7 +105,7 @@ def auto_bid():
                 bids_placed += 1
 
         browser.close()
-        print(f"\n✅ Bidding process completed! {bids_placed} bids placed.")
+        print(f"\n Bidding process completed! {bids_placed} bids placed.")
 
 if __name__ == "__main__":
     auto_bid()

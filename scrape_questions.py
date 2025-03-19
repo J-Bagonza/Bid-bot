@@ -8,12 +8,12 @@ from dotenv import load_dotenv
 load_dotenv()
 STUDYPOOL_SESSION = os.getenv("STUDYPOOL_SESSION")
 
-# ✅ Filtering Criteria
-MINIMUM_PRICE = 3.0  #  Minimum price ($3)
-MIN_HOURS = 3  #  Minimum 3 hours
-MIN_DAYS = 1  #  Minimum 1 day (24 hours)
-MAX_DEADLINE_HOURS = 30 * 24  # Maximum 30 days (720 hours)
-RETRY_DELAY = 60  #  Wait 60 seconds before retrying if no questions are found
+#  Filtering Criteria
+MINIMUM_PRICE = 3.0  
+MIN_HOURS = 3  
+MIN_DAYS = 1  
+MAX_DEADLINE_HOURS = 30 * 24  
+RETRY_DELAY = 60  
 
 #  Preferred Categories
 PREFERRED_CATEGORIES = {"Business", "Writing", "Science", "Programming", "Mathematics", "Humanities"}
@@ -90,7 +90,7 @@ def scrape_questions():
                     deadline_hours = parse_deadline(deadline_text)
 
                     # Correct deadline filtering:
-                    # Accepts at least 3 hours OR at least 1 full day (24 hours)
+                    
                     if matches_preferred_category(subject) and (MINIMUM_PRICE <= price) and (
                         deadline_hours >= MIN_HOURS or deadline_hours >= MIN_DAYS * 24
                     ):
