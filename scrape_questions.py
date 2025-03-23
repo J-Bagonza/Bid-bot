@@ -114,7 +114,7 @@ def scrape_questions():
                 print("\n Filtered questions saved to 'filtered_questions.json'!")
                 break  
 
-            print(f"⚠ No matching questions found. Retrying in {RETRY_DELAY} seconds...")
+            print(f" No matching questions found. Retrying in {RETRY_DELAY} seconds...")
             time.sleep(RETRY_DELAY)
 
 if __name__ == "__main__":
