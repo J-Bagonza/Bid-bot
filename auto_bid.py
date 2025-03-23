@@ -30,7 +30,7 @@ def login_with_cookie(page):
 
 def place_bid(page, question_url):
     """Automate the bidding process for a single question."""
-    print(f"🚀 Opening question: {question_url}")
+    print(f" Opening question: {question_url}")
     page.goto(question_url, timeout=60000)
 
     #  Wait for bid elements to load
