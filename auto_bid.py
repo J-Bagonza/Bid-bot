@@ -66,7 +66,7 @@ def place_bid(page, question_url):
         return False
 
     #  Click finalize bid checkbox
-    finalize_checkbox = page.query_selector(".finalize-bid-description")
+    finalize_checkbox = page.query_selector("finalize-bid-description")
     if finalize_checkbox:
         finalize_checkbox.click()
     else:
