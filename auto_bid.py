@@ -62,7 +62,7 @@ def place_bid(page, question_url):
     if delivery_input:
         delivery_input.fill(str(delivery_time))  
     else:
-        print("⚠ Could not find delivery time input.")
+        print("Could not find delivery time input.")
         return False
 
     #  Click finalize bid checkbox
