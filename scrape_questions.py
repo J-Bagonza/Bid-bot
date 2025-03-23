@@ -16,7 +16,7 @@ MAX_DEADLINE_HOURS = 30 * 24
 RETRY_DELAY = 60  
 
 #  Preferred Categories
-PREFERRED_CATEGORIES = {"Business", "Writing", "Science", "Programming", "Mathematics", "Humanities"}
+PREFERRED_CATEGORIES = {"Business", "Wriiting", "Science", "Programming", "Mathematics", "Humanities"}
 
 def login_with_cookie(page):
     """Load StudyPool session using stored cookie."""
