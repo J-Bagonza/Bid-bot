@@ -105,7 +105,7 @@ def auto_bid():
                 bids_placed += 1
 
         browser.close()
-        print(f"\n Bidding process completed! {bids_placed} bids placed.")
+        print(f"\n bidding process completed! {bids_placed} bids placed.")
 
 if __name__ == "__main__":
     auto_bid()
