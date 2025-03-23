@@ -103,7 +103,7 @@ def scrape_questions():
                         })
 
                 except Exception as e:
-                    print(f"⚠ Skipping question due to error: {e}")
+                    print(f"Skipping question due to error: {e}")
                     continue
 
             browser.close()
