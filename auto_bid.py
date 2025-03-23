@@ -70,7 +70,7 @@ def place_bid(page, question_url):
     if finalize_checkbox:
         finalize_checkbox.click()
     else:
-        print("⚠ Could not find finalize checkbox.")
+        print(" Could not find finalize checkbox.")
         return False
 
     #  Click "Place Bid" button
