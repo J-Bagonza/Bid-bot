@@ -51,7 +51,7 @@ def place_bid(page, question_url):
         if dropdown_option:
             dropdown_option.click()
         else:
-            print(f"⚠ Bid amount ${bid_price} not available.")
+            print(f"Bid amount ${bid_price} not available.")
             return False
     else:
         print(" Could not find price dropdown.")
