@@ -54,7 +54,7 @@ def place_bid(page, question_url):
             print(f"⚠ Bid amount ${bid_price} not available.")
             return False
     else:
-        print("⚠ Could not find price dropdown.")
+        print(" Could not find price dropdown.")
         return False  
 
     #  Enter delivery time
