@@ -40,7 +40,7 @@ def place_bid(page, question_url):
     bid_price = random.randint(*BID_PRICE_RANGE)
     delivery_time = random.randint(*DELIVERY_TIME_RANGE)
 
-    print(f"💰 Bidding ${bid_price} | ⏳ Delivery in {delivery_time} hours")
+    print(f"Bidding ${bid_price} | ⏳ Delivery in {delivery_time} hours")
 
     #  Select bid price
     price_dropdown = page.query_selector("#s2id_priceDropDown")
